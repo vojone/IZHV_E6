@@ -134,27 +134,10 @@ public class InventoryManager : MonoBehaviour
         mItemDetailName = itemDetails.Q<Label>("ItemDetailName");
         mItemDetailDescription = itemDetails.Q<Label>("ItemDetailDescription");
         mItemDetailCost = itemDetails.Q<Label>("ItemDetailCost");
-        
-        /*
-         * Task 2c: Link the Button
-         *
-         * To link the button click with a callback within our code,
-         * you need to first get a reference to it by using:
-         *  itemDetails.Q<Button>(NAME)
-         * , where NAME is the name of the button within the UI Builder
-         * hierarchy. Assign it to the prepared member property
-         * mItemCreateButton.
-         * 
-         * Then, to finally connect it to a function, use the Action
-         * interface:
-         *  mItemCreateButton.clicked += () => CreateItem();
-         * The lambda notation "() => ..." is used because the clicked
-         * Action requires the function to return void. The result of
-         * this is that whenever we press the button, CreateItem() will
-         * be called.
-         */
-        
-        
+
+
+        mItemCreateButton = itemDetails.Q<Button>("ItemDetailButtonCreate");
+        mItemCreateButton.clicked += () => CreateItem();
         
         
         await UniTask.WaitForEndOfFrame();
@@ -336,29 +319,28 @@ public class InventoryManager : MonoBehaviour
     /// <summary> Update the currently displayed item description from given item. </summary>
     public void UpdateSelectedItem([CanBeNull] ItemVisual item = null)
     {
-        /*
-         * Task 2b: Modifying UI from code
-         *
-         * Update the item information within the inventory UI by modifying the
-         * following properties:
-         *  * mItemDetailName.text : Name of the item (item.definition.readableName)
-         *  * mItemDetailDescription.text : Description of the item (item.definition.readableDescription)
-         *  * mItemDetailCost.text : Cost of the item (item.definition.cost)
-         * , then we also need to reflect the ability of the user to create by
-         * enabling/disabling the CREATE button, based on whether enough currency
-         * is available. To do this, use: 
-         *  * mItemCreateButton.SetEnabled : Method which sets the activity of the button.
-         *  * item.definition.cost : Cost of the item.
-         *  * availableCurrency : Currently available funds.
-         * Finally, you should also DISABLE the button when we have no item available
-         * and provide some default texts to let the player know what to expect.
-         */
         
         if (item == null)
         { // We have no item selected -> Provide some default information.
+            mItemDetailName.text = "Principa Physica";
+            mItemDetailDescription.text = "Please select item from inventory...";
+            mItemDetailCost.text = "-";
+
+            mItemCreateButton.SetEnabled(false);
         }
         else
         { // We have item selected -> Use the item information.
+
+            mItemDetailName.text = item.definition.readableName;
+            mItemDetailDescription.text = item.definition.readableDescription;
+            mItemDetailCost.text = item.definition.cost.ToString();
+
+            if(item.definition.cost > availableCurrency) {
+                mItemCreateButton.SetEnabled(false);
+            }
+            else {
+                mItemCreateButton.SetEnabled(true);
+            }
         }
         
         selectedItem = item;
@@ -375,24 +357,16 @@ public class InventoryManager : MonoBehaviour
     /// <summary> Function called by the "Create" button. Returns whether the operation was successful. </summary>
     public bool CreateItem()
     {
-        /*
-         * Task 2d: Item Creation
-         *
-         * Implement the item creation within this function. You should first
-         * check that we have a valid selected item (selectedItem == null?).
-         *
-         * Now, place the prefab representing the selected item (itemDefinition.prefab)
-         * into the scene.
-         * Hint: Utilize Instantiate, using the createDestination.transform as the parent.
-         * 
-         * This function should return true only if the creation succeeded.
-         *
-         * Oh, and make sure you actually have enough currency and then DEDUCT 
-         * it from the cost (itemDefinition.cost) from availableCurrency property.
-         * These items are not cheap to make!
-         */
-        
+
         var itemDefinition = selectedItem?.definition;
+
+        if(selectedItem != null) {
+            if(availableCurrency >= itemDefinition.cost) {
+                Instantiate(itemDefinition.prefab, createDestination.transform);
+                availableCurrency -= itemDefinition.cost;
+                return true;
+            }
+        }
         
         return false;
     }

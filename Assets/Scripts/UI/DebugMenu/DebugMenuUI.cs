@@ -96,76 +96,51 @@ public class DebugMenuUI : MonoBehaviour
             GUILayout.BeginVertical();
             {
                 
-                /*
-                 * Task 3b: The Cheat
-                 *
-                 * Getting to the fun part - cheats. Wouldn't it be nice if we
-                 * could create items infinitely? Well, we wouldn't want it to 
-                 * be too accessible for our player, which is the reason why we
-                 * hide it within the "Cheat Console".
-                 *
-                 * The variable containing the current available currency is easily
-                 * accessible through InventoryManager.Instance.availableCurrency.
-                 * But how do we modify it in the GUI? There are several ways, which
-                 * you can try.
-                 *
-                 * We will be using the Layout mode of IMGUI, which allows us to
-                 * skip specification of absolute positions and places the UI elements
-                 * quite autonomously. Importantly, this REQUIRES the use of a separate
-                 * interface under GUILayout (NOT just "GUI").
-                 *
-                 * Start by defining a block which will place elements horizontally after
-                 * each other:
+
                 GUILayout.BeginHorizontal();
                 {
-                    // Elements defined here will be place after each other
+
+                    GUILayout.Label("Currency: ", GUILayout.Width(WINDOW_DIMENSION.x / 4.0f));
+                    var currency = InventoryManager.Instance.availableCurrency;
+                    currency = (int)GUILayout.HorizontalSlider(currency, 0.0f, 1000.0f, 
+                    GUILayout.ExpandWidth(true));
+
+                    if (GUI.changed)
+                    { 
+                        InventoryManager.Instance.availableCurrency = currency; 
+                    }
                 }
                 GUILayout.EndHorizontal();
-                 *
-                 * Now, create a label, specifying:
-                    GUILayout.Label("Currency: ", GUILayout.Width(WINDOW_DIMENSION.x / 4.0f));
-                 * This defined a new label with the text "Currency: " with a fixed width.
-                 *
-                 * Then, lets look at a different way of working with data-binding in IMGUI.
-                 * This time, we will create a temporaly variable to hold the value: 
-                    var currency = InventoryManager.Instance.availableCurrency;
-                 * and then, representing it using a HorizontalSlider: 
-                    currency = (int) GUILayout.HorizontalSlider(currency, 0.0f, 1000.0f, 
-                        GUILayout.ExpandWidth(true));
-                 * Finally, we don't have to update the value every time. For this, we can
-                 * use the GUI.changed flag (yes, this time it is really only "GUI"...): 
+
+
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label("Interact: ", GUILayout.Width(WINDOW_DIMENSION.x / 4.0f));
+                    var interact = GUILayout.Toggle (GameManager.Instance.interactiveMode, "");
+
                     if (GUI.changed)
-                    { InventoryManager.Instance.availableCurrency = currency; }
-                 */
-                
-                
-                
-                
-                
-                /*
-                 * Task 3c: The Tool
-                 *
-                 * In this final task, you will be creating some utility debugging
-                 * functions within our Cheat Console. In this case, you will have
-                 * a little more autonomy.
-                 *
-                 * Create appropriate controls for the following handles:
-                 *  * GameManager.Instance.interactiveMode: Allows mouse interaction
-                 *    with the scene. Try it out - you can left-click scene objects
-                 *    and drag.
-                 *  * SoundManager.Instance.masterVolume: Master volume control for
-                 *    all sounds. Its value is in dB, appropriate range <-80.0f, 20.0f>.
-                 *  * SoundManager.Instance.masterMuted: Allows muting of the sound.
-                 *
-                 * For this task, it may be useful to look at what elements are available:
-                 * https://docs.unity3d.com/2021.2/Documentation/Manual/gui-Controls.html
-                 * , but nota that you will probably want to use GUILayout instead of "GUI".
-                 *
-                 * This task can be considered as completed once all three handles can
-                 * be controlled from the Cheat Console.
-                 */
-                
-                
+                    { 
+                        GameManager.Instance.interactiveMode = interact; 
+                    }
+                }
+                GUILayout.EndHorizontal();
+
+
+
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label("Volume: ", GUILayout.Width(WINDOW_DIMENSION.x / 4.0f));
+                    var vol = GUILayout.HorizontalSlider(SoundManager.Instance.masterVolume, -80.0f, 20.0f, GUILayout.ExpandWidth(true));
+                    SoundManager.Instance.masterVolume = vol;
+
+                    var buttonWidth = 30;
+                    var mute = GUILayout.Button("M", GUILayout.Width(buttonWidth));
+
+                    if(mute) {
+                        SoundManager.Instance.masterMuted = true;
+                    }
+                }
+                GUILayout.EndHorizontal();
                 
                 
                 
@@ -180,23 +155,13 @@ public class DebugMenuUI : MonoBehaviour
                         );
                     }
 
-                    /*
-                     * Task 3a: The Dummy
-                     *
-                     * In this task, you will be enabling a hidden dummy character
-                     * to run in the scene. This can accomplished quite simply by
-                     * using the GameManager.Instance.TogglePlayerCharacter() method.
-                     *
-                     * Integrating this with the IMGUI Chest Console is also quite easy.
-                     * As you can see, the button is defined by calling the Button(...)
-                     * function. It also, quite reasonably, returns bool value of whether
-                     * it was pressed. So, all you need to do is place the character-enabling
-                     * code into the if statement and voila!
-                     */
+
                     if (GUILayout.Button("Enable\nDummy\nCharacter", 
                         GUILayout.ExpandWidth(true), 
                         GUILayout.ExpandHeight(true)))
-                    { /* Fill the code here! */ }
+                    {
+                        GameManager.Instance.TogglePlayerCharacter(); 
+                    }
                 }
                 GUILayout.EndHorizontal();
                 // Do not forget to end each group in the correct order!
