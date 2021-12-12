@@ -149,22 +149,6 @@ public class GameManager : MonoBehaviour
     /// <summary> Quit the game. </summary>
     public void QuitGame()
     {
-        /*
-         * Task 1: Quit the game
-         *
-         * Unity has no unified way of quitting a game on all platforms.
-         * For this reason, you have already prepared sections for the
-         * three primary platforms we are working with.
-         *
-         * You should be able to easily solve this task with a little
-         * bit of "Googling". Just for a little hint: you can use the 
-         * static objects and methods within UnityEditor and Application.
-		 * 
-		 * Hint: For WebGL build, you may not be able to actually close 
-		 *       the browser tab itself. That is OK. Try "unloading" the 
-		 *       WebGL memory or just refreshing the page by reloading the 
-		 *       current URL ("OpenURL", "absoluteURL").
-         */
         
 #if UNITY_EDITOR
         // Quitting in Unity Editor:
