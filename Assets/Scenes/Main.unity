@@ -1026,6 +1026,9 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: e390f8498e11c12428c535305ce1ef63, type: 2}
   - definition: {fileID: 11400000, guid: a8f10d9350e1ac54a85650d7911b64ba, type: 2}
   - definition: {fileID: 11400000, guid: c40c76109cac301419a35d2f2df72493, type: 2}
+  - definition: {fileID: 11400000, guid: 9ade89762dd2ef945b3589f0fd075f56, type: 2}
+  - definition: {fileID: 11400000, guid: 987775e014c35924aa9490edf94a4bdf, type: 2}
+  - definition: {fileID: 11400000, guid: bc1e2927c4036194b828d7bf1cdc8dff, type: 2}
   inventoryDimension: {x: 0, y: 0}
 --- !u!114 &291797075
 MonoBehaviour:

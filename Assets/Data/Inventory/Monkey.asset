@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2133400072f95a2449b36de2bf5081af, type: 3}
+  m_Name: Monkey
+  m_EditorClassIdentifier: 
+  id: 7ddc19cc-7939-4e66-99af-be88f60184ba
+  readableName: Monkey
+  readableDescription: 'With this object you can build your little ZOO! '
+  cost: 40
+  prefab: {fileID: 7354980557844379772, guid: d31eb172fc4976e41a38e26f2b32f90a, type: 3}
